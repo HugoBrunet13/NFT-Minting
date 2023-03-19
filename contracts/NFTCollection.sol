@@ -57,7 +57,7 @@ contract NFTCollection is ERC721URIStorage {
 
         string memory metadata = string(
             abi.encodePacked(
-                '{ "name": "',
+                '{"name": "',
                 name,
                 '", ',
                 '"description": "',
@@ -65,7 +65,7 @@ contract NFTCollection is ERC721URIStorage {
                 '", ',
                 '"image": "',
                 image,
-                '" }'
+                '"}'
             )
         );
         _setTokenURI(newTokenId, metadata);
