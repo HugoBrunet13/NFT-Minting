@@ -5,10 +5,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 
 describe("MyNFT contract", function () {
 
-  async function deployNFTCollectionFixture() {
+  async function deployNFTCollectionFixture(nbNFTs: number, start: number, end: number) {
     const [ownerNFTCollection, USER1, USER2, USER3, USER4, USER5, _] = await ethers.getSigners();
     const NFTCollectionContract = await ethers.getContractFactory("NFTCollection");
-    const NFTCollection = await NFTCollectionContract.deploy("My NFT Collection", "MNFT", 5, 1641513600, 1642513600);
+    const NFTCollection = await NFTCollectionContract.deploy("My NFT Collection", "MNFT", nbNFTs, start, end);
     return { NFTCollection, ownerNFTCollection, USER1, USER2, USER3, USER4, USER5 };
   }
 
@@ -16,33 +16,38 @@ describe("MyNFT contract", function () {
   describe('Deploy contract', () => {
     describe('Success -  Deploy contract with valid parameters', () => {
       it('Should deploy the contract with correct name and symbol', async () => {
-        const { NFTCollection } = await loadFixture(deployNFTCollectionFixture);
+        const startTime = Math.floor(Date.now() / 1000)
+        const endTime = Math.floor(Date.now() / 1000) + 10000
+        const { NFTCollection } = await loadFixture(deployNFTCollectionFixture.bind(null, 5, startTime, endTime));
         expect(await NFTCollection.name()).to.equal("My NFT Collection");
         expect(await NFTCollection.symbol()).to.equal("MNFT");
 
       });
       it('Should deploy the contract with correct maxNFTs, mintWindowsStart, mintWindowsEnd', async () => {
-        const { NFTCollection } = await loadFixture(deployNFTCollectionFixture);
+        const startTime = Math.floor(Date.now() / 1000)
+        const endTime = Math.floor(Date.now() / 1000) + 10000
+        const { NFTCollection } = await loadFixture(deployNFTCollectionFixture.bind(null, 5, startTime, endTime));
         expect(await NFTCollection.maxNFTs()).to.equal(5);
-        expect(await NFTCollection.mintWindowStart()).to.equal(1641513600);
-        expect(await NFTCollection.mintWindowEnd()).to.equal(1642513600);
+        expect(await NFTCollection.mintWindowStart()).to.equal(startTime);
+        expect(await NFTCollection.mintWindowEnd()).to.equal(endTime);
       })
     })
 
     describe('Failure -  Deploy contract with invalid parameters', () => {
       it('Should fail to deploy if maxNFTs param is invalid', async () => {
-        expect(true).to.equal(true)
+        const startTime = Math.floor(Date.now() / 1000)
+        const endTime = Math.floor(Date.now() / 1000) + 10000
+        await expect(loadFixture(deployNFTCollectionFixture.bind(null, 0, startTime, endTime))).to.be.revertedWith("Invalid maxNFT value");
 
       });
-      it('Should fail to deploy if mintWindowsStart > mintWindowsEnd', async () => {
-        expect(true).to.equal(true)
+      it('Should fail to deploy if not time window is invalid', async () => {
+        await expect(loadFixture(deployNFTCollectionFixture.bind(null, 5, 1643513600, 1642513600))).to.be.revertedWith("Invalid time window");
       })
     })
-
   });
 
   describe('Function MintNFT()', () => {
-    it("Should fail when ...", async function () {
+    it("Should fail when time", async function () {
       expect(true).to.equal(true)
 
       // await myNFT.connect(accounts[0]).mintNFT(

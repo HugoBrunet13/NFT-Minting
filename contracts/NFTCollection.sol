@@ -21,11 +21,22 @@ contract NFTCollection is ERC721URIStorage {
         uint256 _mintWindowStart,
         uint256 _mintWindowEnd
     ) ERC721(name_, symbol_) {
-        require(_mintWindowStart < _mintWindowEnd, "Invalid minting window");
+        require(
+            isTimeWindowValid(_mintWindowStart, _mintWindowEnd),
+            "Invalid time window"
+        );
         require(_maxNFTs > 0, "Invalid maxNFT value");
         maxNFTs = _maxNFTs;
         mintWindowStart = _mintWindowStart;
         mintWindowEnd = _mintWindowEnd;
+    }
+
+    function isTimeWindowValid(
+        uint256 startTime,
+        uint256 endTime
+    ) private view returns (bool) {
+        uint256 currentTime = block.timestamp;
+        return currentTime >= startTime && currentTime < endTime;
     }
 
     function mintNFT(
@@ -34,8 +45,7 @@ contract NFTCollection is ERC721URIStorage {
         string memory image
     ) public {
         require(
-            block.timestamp >= mintWindowStart &&
-                block.timestamp < mintWindowEnd,
+            isTimeWindowValid(mintWindowStart, mintWindowEnd),
             "Minting window has closed"
         );
         require(!_hasMinted[msg.sender], "You have already minted an NFT");
