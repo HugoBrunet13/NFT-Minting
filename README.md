@@ -11,7 +11,7 @@ This tokenURI can include any information: name, description, and imageURL.
 
 When testing this project from the DApp, the tokenURI will be generated from data received on IPFS.  (More info in `frontend/README.md`)
 
-<img src="./frontend/public/tests/myNft.jpg" width="309" height="435">
+<img src="./frontend/public/tests/myNFT.jpg" width="309" height="435">
 
 
 ## Structure of the project
