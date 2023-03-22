@@ -47,7 +47,6 @@ export default function NFTCollectionContract({ signer }: Props) {
   useEffect(() => {
     const getContractDetails = async () => {
       if (contract) {
-        console.log(contract)
         setContractMaxNfts((await contract.maxNFTs()).toNumber())
         setCountMintedToken((await contract.getCurrentToken()).toNumber())
         setContractMintStart((await contract.mintWindowStart()).toNumber())

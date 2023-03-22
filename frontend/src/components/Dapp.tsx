@@ -20,7 +20,6 @@ const DApp: React.FC = () => {
         const web3Provider = new ethers.providers.Web3Provider(window.ethereum as any)
         setProvider(web3Provider)
         const chainId = await web3Provider.send("eth_chainId", []);
-        console.log("chainid: ", chainId)
         if (chainId !== '0xaa36a7') {
           await web3Provider.send("wallet_switchEthereumChain", [{ chainId: '0xaa36a7' }])
         }
@@ -34,7 +33,6 @@ const DApp: React.FC = () => {
 
   if (window.ethereum) {
     (window.ethereum as any).on('accountsChanged', function (accounts: any) {
-      console.log("account changed: ", accounts)
       setMetamaskAccount(accounts[0])
     })
   }

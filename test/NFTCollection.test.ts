@@ -127,7 +127,7 @@ describe("MyNFT contract", function () {
   });
 
   describe('Function getCurrentToken()', () => {
-    it('Success - Should return 0 is no token are minted', async () => {
+    it('Success - Should return 0 if no tokens are minted', async () => {
       const startTime = await time.latest()
       const endTime = startTime + 10000
       const { NFTCollection, USER1 } = await loadFixture(deployNFTCollectionFixture.bind(null, 5, startTime, endTime));
