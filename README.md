@@ -10,9 +10,9 @@ NB: Please note that all metadata must be included in the tokenURI parameter whe
 This tokenURI can include any information: name, description, and imageURL.  
 
 When testing this project from the DApp, the tokenURI will be generated from data received on IPFS.  (More info in `frontend/README.md`)
-
+<p align="center">
 <img src="./frontend/public/tests/myNFT.jpg" width="309" height="435">
-
+</p>
 
 ## Structure of the project
 ### 1. Smart contracts - `contract/` 
