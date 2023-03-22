@@ -1,10 +1,10 @@
 import { artifacts, ethers } from "hardhat";
 import path from "path";
-import { NFTCollection, NFTCollection__factory } from "../typechain-types";
+import { NFTCollection } from "../typechain-types";
 
 async function main() {
   const startWindow = Math.round(Date.now() / 1000);
-  const endWindow = startWindow + 3600
+  const endWindow = startWindow + 10000
   const NFTCollectionContract = await ethers.getContractFactory("NFTCollection");
 
 
